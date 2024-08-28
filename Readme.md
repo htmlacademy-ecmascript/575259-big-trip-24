@@ -1,7 +1,7 @@
 # Проект «Большое путешествие»
 
 * Студент: [Александр Чусовитин](https://up.htmlacademy.ru/ecmascript/24/user/575259).
-* Наставник: `Артем Именин`.
+* Наставник: [Артем Именин](https://htmlacademy.ru/profile/aimenin).
 
 ---
 
