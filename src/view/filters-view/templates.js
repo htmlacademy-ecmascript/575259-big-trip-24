@@ -8,11 +8,15 @@ const createFilterItemTemplate = (filterName, isChecked = false) => `
 `;
 
 
-const createNewFiltersTemplate = () => `
+const createNewFiltersTemplate = () => {
+  const filterItemsTemplate = FILTERS.map(({ name, isChecked }) => createFilterItemTemplate(name, isChecked)).join('');
+
+  return `
   <form class="trip-filters" action="#" method="get">
-    ${FILTERS.map(({ name, isChecked }) => createFilterItemTemplate(name, isChecked)).join('')}
+    ${filterItemsTemplate}
     <button class="visually-hidden" type="submit">Accept filter</button>
   </form>
 `;
+};
 
 export { createNewFiltersTemplate };
