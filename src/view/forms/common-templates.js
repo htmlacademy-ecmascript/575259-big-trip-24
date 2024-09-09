@@ -1,4 +1,5 @@
 import { EVENT_TYPES } from '../../contstants.js';
+import { capitalizeFirstLetter, getFormattedDate } from '../../utils.js';
 
 const createEventTypeSelectorTemplate = (selectedType = 'flight') => `
   <div class="event__type-wrapper">
@@ -15,7 +16,7 @@ const createEventTypeSelectorTemplate = (selectedType = 'flight') => `
     .map((type) => `
             <div class="event__type-item">
               <input id="event-type-${type}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${type}" ${type === selectedType ? 'checked' : ''}>
-              <label class="event__type-label  event__type-label--${type}" for="event-type-${type}-1">${type.charAt(0).toUpperCase() + type.slice(1)}</label>
+              <label class="event__type-label  event__type-label--${type}" for="event-type-${type}-1">${capitalizeFirstLetter(type)}</label>
             </div>
           `)
     .join('')}
@@ -24,10 +25,10 @@ const createEventTypeSelectorTemplate = (selectedType = 'flight') => `
   </div>
 `;
 
-const createEventDestinationTemplate = (selectedDestination = 'Geneva') => `
+const createEventDestinationTemplate = (selectedDestination = 'Amsterdam', selectedType = 'flight') => `
   <div class="event__field-group  event__field-group--destination">
     <label class="event__label  event__type-output" for="event-destination-1">
-      Flight
+      ${selectedType}
     </label>
     <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${selectedDestination}" list="destination-list-1">
     <datalist id="destination-list-1">
@@ -38,15 +39,20 @@ const createEventDestinationTemplate = (selectedDestination = 'Geneva') => `
   </div>
 `;
 
-const createEventTimeTemplate = (startTime = '19/03/19 00:00', endTime = '19/03/19 00:00') => `
+const createEventTimeTemplate = (startTime = new Date(), endTime = new Date()) => {
+  const startDateFormatted = getFormattedDate(startTime, 'D/M/YY HH:mm');
+  const endDateFormatted = getFormattedDate(endTime, 'D/M/YY HH:mm');
+
+  return `
   <div class="event__field-group  event__field-group--time">
     <label class="visually-hidden" for="event-start-time-1">От</label>
-    <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${startTime}">
+    <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${startDateFormatted}">
     &mdash;
     <label class="visually-hidden" for="event-end-time-1">До</label>
-    <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${endTime}">
+    <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${endDateFormatted}">
   </div>
 `;
+};
 
 const createEventPriceTemplate = (price = '') => `
   <div class="event__field-group  event__field-group--price">
@@ -75,6 +81,16 @@ const createEventDescriptionTemplate = (description = '') => `
   <p class="event__destination-description">${description}</p>
 `;
 
+const createEventPhotosTemplate = (photos = []) => `
+  <div class="event__photos-container">
+    <div class="event__photos-tape">
+      ${photos.map((photo) => `
+        <img class="event__photo" src="${photo.src}" alt="Event photo">
+      `).join('')}
+    </div>
+  </div>
+`;
+
 export {
   createEventTypeSelectorTemplate ,
   createEventDestinationTemplate,
@@ -82,4 +98,5 @@ export {
   createEventPriceTemplate,
   createEventDescriptionTemplate,
   createOfferSelectorTemplate,
+  createEventPhotosTemplate,
 };

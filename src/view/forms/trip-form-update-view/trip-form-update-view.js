@@ -3,8 +3,18 @@ import { createTripFormUpdateTemplate } from './templates.js';
 
 
 export default class TripFormUpdateView {
+  #point;
+  #offerByType;
+  #destination;
+
+  constructor(point, offerByType, destination) {
+    this.#point = point;
+    this.#offerByType = offerByType;
+    this.#destination = destination;
+  }
+
   getTemplate() {
-    return createTripFormUpdateTemplate();
+    return createTripFormUpdateTemplate(this.#point, this.#offerByType, this.#destination);
   }
 
   getElement() {

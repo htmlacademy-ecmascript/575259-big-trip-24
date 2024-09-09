@@ -5,16 +5,19 @@ import {
   createEventPriceTemplate,
   createEventDescriptionTemplate,
   createOfferSelectorTemplate,
+  createEventPhotosTemplate,
 } from '../common-templates.js';
-import { OFFERS } from '../../../contstants.js';
 
-const createTripFormUpdateTemplate = () => {
-  const eventTypeSelectorTemplate = createEventTypeSelectorTemplate('flight');
-  const eventDestinationTemplate = createEventDestinationTemplate('Chamonix');
-  const eventTimeTemplate = createEventTimeTemplate('18/03/19 12:25', '18/03/19 13:35');
-  const eventPriceTemplate = createEventPriceTemplate('160');
-  const offersTemplate = OFFERS.map(({ title, price, name, isChecked }) => createOfferSelectorTemplate(title, price, name, isChecked)).join('');
-  const eventDescriptionTemplate = createEventDescriptionTemplate('Chamonix-Mont-Blanc (usually shortened to Chamonix) is a resort area near the junction of France, Switzerland and Italy. At the base of Mont Blanc, the highest summit in the Alps, it\'s renowned for its skiing.');
+const createTripFormUpdateTemplate = (point, offerByType, destination) => {
+  const offersTemplate = offerByType.offers
+    .map((offer) => createOfferSelectorTemplate(offer.title, offer.price, offer.name, offer.isChecked))
+    .join('');
+
+  const eventTypeSelectorTemplate = createEventTypeSelectorTemplate(point.type);
+  const eventDestinationTemplate = createEventDestinationTemplate(destination.name, point.type);
+  const eventTimeTemplate = createEventTimeTemplate(point.dateFrom, point.dateTo);
+  const eventPriceTemplate = createEventPriceTemplate(point.basePrice);
+  const eventDescriptionTemplate = createEventDescriptionTemplate(point.description);
 
   return `
 <form class="event event--edit" action="#" method="post">
@@ -41,6 +44,8 @@ const createTripFormUpdateTemplate = () => {
 
     <section class="event__section  event__section--destination">
       ${eventDescriptionTemplate}
+
+      ${destination.pictures && createEventPhotosTemplate(destination.pictures)}
     </section>
   </section>
 </form>

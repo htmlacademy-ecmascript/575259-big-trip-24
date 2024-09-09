@@ -5,17 +5,17 @@ import {
   createEventPriceTemplate,
   createEventDescriptionTemplate,
   createOfferSelectorTemplate,
+  createEventPhotosTemplate,
 } from '../common-templates.js';
-import { OFFERS } from '../../../contstants.js';
 
 
-const createTripFormCreateTemplate = () => {
-  const eventTypeSelectorTemplate = createEventTypeSelectorTemplate();
-  const eventDestinationTemplate = createEventDestinationTemplate();
-  const eventTimeTemplate = createEventTimeTemplate();
-  const eventPriceTemplate = createEventPriceTemplate();
-  const offersTemplate = OFFERS.map(({ title, price, name, isChecked }) => createOfferSelectorTemplate(title, price, name, isChecked)).join('');
-  const eventDescriptionTemplate = createEventDescriptionTemplate();
+const createTripFormCreateTemplate = (point, offerByType, destination) => {
+  const eventTypeSelectorTemplate = createEventTypeSelectorTemplate(point.type);
+  const eventDestinationTemplate = createEventDestinationTemplate(destination.name, point.type);
+  const eventTimeTemplate = createEventTimeTemplate(point.dateFrom, point.dateTo);
+  const eventPriceTemplate = createEventPriceTemplate(point.basePrice);
+  const offersTemplate = offerByType.offers.map(({ title, price, name, isChecked }) => createOfferSelectorTemplate(title, price, name, isChecked)).join('');
+  const eventDescriptionTemplate = createEventDescriptionTemplate(point.description);
 
   return `
   <form class="event event--edit" action="#" method="post">
@@ -40,15 +40,7 @@ const createTripFormCreateTemplate = () => {
       <section class="event__section  event__section--destination">
         ${eventDescriptionTemplate}
 
-        <div class="event__photos-container">
-          <div class="event__photos-tape">
-            <img class="event__photo" src="img/photos/1.jpg" alt="Event photo">
-            <img class="event__photo" src="img/photos/2.jpg" alt="Event photo">
-            <img class="event__photo" src="img/photos/3.jpg" alt="Event photo">
-            <img class="event__photo" src="img/photos/4.jpg" alt="Event photo">
-            <img class="event__photo" src="img/photos/5.jpg" alt="Event photo">
-          </div>
-        </div>
+        ${destination.pictures.length > 0 ? createEventPhotosTemplate(destination.pictures) : ''}
       </section>
     </section>
   </form>
