@@ -9,9 +9,9 @@ import {
 } from '../common-templates.js';
 
 
-const createTripFormCreateTemplate = (point, offerByType, destination) => {
+const createTripFormCreateTemplate = (point, offerByType, destination, destinations) => {
   const eventTypeSelectorTemplate = createEventTypeSelectorTemplate(point.type);
-  const eventDestinationTemplate = createEventDestinationTemplate(destination.name, point.type);
+  const eventDestinationTemplate = createEventDestinationTemplate(destination.name, point.type, destinations);
   const eventTimeTemplate = createEventTimeTemplate(point.dateFrom, point.dateTo);
   const eventPriceTemplate = createEventPriceTemplate(point.basePrice);
   const offersTemplate = offerByType.offers.map(({ title, price, name, isChecked }) => createOfferSelectorTemplate(title, price, name, isChecked)).join('');

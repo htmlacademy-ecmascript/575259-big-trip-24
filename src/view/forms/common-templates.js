@@ -25,23 +25,21 @@ const createEventTypeSelectorTemplate = (selectedType = 'flight') => `
   </div>
 `;
 
-const createEventDestinationTemplate = (selectedDestination = 'Amsterdam', selectedType = 'flight') => `
+const createEventDestinationTemplate = (selectedDestination = 'Amsterdam', selectedType = 'flight', destinations = []) => `
   <div class="event__field-group  event__field-group--destination">
     <label class="event__label  event__type-output" for="event-destination-1">
       ${selectedType}
     </label>
     <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${selectedDestination}" list="destination-list-1">
     <datalist id="destination-list-1">
-      <option value="Amsterdam"></option>
-      <option value="Geneva"></option>
-      <option value="Chamonix"></option>
+      ${destinations.map((destination) => `<option value="${destination}"></option>`).join('')}
     </datalist>
   </div>
 `;
 
 const createEventTimeTemplate = (startTime = new Date(), endTime = new Date()) => {
-  const startDateFormatted = getFormattedDate(startTime, 'D/M/YY HH:mm');
-  const endDateFormatted = getFormattedDate(endTime, 'D/M/YY HH:mm');
+  const startDateFormatted = getFormattedDate(startTime, 'DD/MM/YY HH:mm');
+  const endDateFormatted = getFormattedDate(endTime, 'DD/MM/YY HH:mm');
 
   return `
   <div class="event__field-group  event__field-group--time">

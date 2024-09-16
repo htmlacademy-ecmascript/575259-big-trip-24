@@ -16,13 +16,13 @@ const getRandomDateBetween = (start, end) => {
   return startDate.add(randomMilliseconds, 'millisecond').toDate();
 };
 
-const generateDateToDateFrom = (date1, date2) => {
-  const d1 = dayjs(date1);
-  const d2 = dayjs(date2);
+const generateDateToDateFrom = (dateFromInput, dateToInput) => {
+  const dateFrom = dayjs(dateFromInput);
+  const dateTo = dayjs(dateToInput);
 
   return {
-    dateFrom: d1.isAfter(d2) ? d2.toDate() : d1.toDate(),
-    dateTo: d1.isAfter(d2) ? d1.toDate() : d2.toDate(),
+    dateFrom: dateFrom.isAfter(dateTo) ? dateTo.toDate() : dateFrom.toDate(),
+    dateTo: dateFrom.isAfter(dateTo) ? dateFrom.toDate() : dateTo.toDate(),
   };
 };
 
@@ -30,14 +30,17 @@ const getFormattedDate = (date, format) => dayjs(date).format(format);
 
 const getDuration = (dateFrom, dateTo) => {
   const durationInMinutes = dayjs(dateTo).diff(dayjs(dateFrom), 'minute');
-  const hours = Math.floor(durationInMinutes / 60);
+  const days = Math.floor(durationInMinutes / (24 * 60));
+  const hours = Math.floor((durationInMinutes % (24 * 60)) / 60);
   const minutes = durationInMinutes % 60;
 
-  if (hours === 0) {
-    return `${minutes}M`;
+  if (days > 0) {
+    return `${days.toString().padStart(2, '0')}D ${hours.toString().padStart(2, '0')}H ${minutes.toString().padStart(2, '0')}M`;
+  } else if (hours > 0) {
+    return `${hours.toString().padStart(2, '0')}H ${minutes.toString().padStart(2, '0')}M`;
+  } else {
+    return `${minutes.toString().padStart(2, '0')}M`;
   }
-
-  return `${hours}H ${minutes}M`;
 };
 
 const capitalizeFirstLetter = (string) => string.charAt(0).toUpperCase() + string.slice(1);

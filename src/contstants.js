@@ -29,8 +29,10 @@ const POINTS_COUNT = 10;
 
 const MAX_DATE_DIFF = 86400000;
 
-const MIN_PRICE = 1000;
-const MAX_PRICE = 100000;
+const PriceLimit = {
+  MIN: 1000,
+  MAX: 100000,
+};
 
 export {
   SORT_FILTERS,
@@ -38,6 +40,5 @@ export {
   EVENT_TYPES,
   POINTS_COUNT,
   MAX_DATE_DIFF,
-  MIN_PRICE,
-  MAX_PRICE,
+  PriceLimit,
 };

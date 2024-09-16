@@ -1,5 +1,5 @@
 import { destinationsMock, offersMock } from '../mock/index.js';
-import { POINTS_COUNT, MAX_DATE_DIFF, MIN_PRICE, MAX_PRICE, EVENT_TYPES } from '../contstants.js';
+import { POINTS_COUNT, MAX_DATE_DIFF, PriceLimit, EVENT_TYPES } from '../contstants.js';
 import {
   getRandomArrayElement,
   getRandomInteger,
@@ -21,6 +21,10 @@ export default class Service {
 
   getDestinations() {
     return this.#destinations;
+  }
+
+  getDestinationNames() {
+    return this.#destinations.map((currentDestination) => currentDestination.name);
   }
 
   getDestinationById(id) {
@@ -45,14 +49,14 @@ export default class Service {
 
   generatePoints(count) {
     return Array.from({ length: count }, () => {
-      const randomDate1 = getRandomDateBetween(new Date(), new Date(Date.now() + MAX_DATE_DIFF));
-      const randomDate2 = getRandomDateBetween(randomDate1, new Date(Date.now() + MAX_DATE_DIFF));
+      const randomDateTo = getRandomDateBetween(new Date(), new Date(Date.now() + MAX_DATE_DIFF));
+      const randomDateFrom = getRandomDateBetween(randomDateTo, new Date(Date.now() + MAX_DATE_DIFF));
 
-      const { dateFrom, dateTo} = generateDateToDateFrom(randomDate1, randomDate2);
+      const { dateFrom, dateTo} = generateDateToDateFrom(randomDateFrom, randomDateTo);
 
       return {
         id: crypto.randomUUID(),
-        basePrice: getRandomInteger(MIN_PRICE, MAX_PRICE),
+        basePrice: getRandomInteger(PriceLimit.MIN, PriceLimit.MAX),
         dateFrom,
         dateTo,
         destination: getRandomArrayElement(this.#destinations).id,

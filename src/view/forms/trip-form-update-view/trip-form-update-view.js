@@ -6,15 +6,17 @@ export default class TripFormUpdateView {
   #point;
   #offerByType;
   #destination;
+  #destinations;
 
-  constructor(point, offerByType, destination) {
+  constructor(point, offerByType, destination, destinations) {
     this.#point = point;
     this.#offerByType = offerByType;
     this.#destination = destination;
+    this.#destinations = destinations;
   }
 
   getTemplate() {
-    return createTripFormUpdateTemplate(this.#point, this.#offerByType, this.#destination);
+    return createTripFormUpdateTemplate(this.#point, this.#offerByType, this.#destination, this.#destinations);
   }
 
   getElement() {

@@ -2,7 +2,8 @@ import {render} from '../../render.js';
 import SortView from '../sort-view/sort-view.js';
 import FiltersView from '../filters-view/filters-view.js';
 import PointView from '../point-view/point-view.js';
-import TripInfoView from '../trip-info-view/trip-info.js';
+import TripInfoView from '../trip-info-view/trip-info-view.js';
+import PointsListView from '../points-list-view/points-list-view.js';
 import TripFormCreateView from '../forms/trip-form-create-view/trip-form-create-view.js';
 import TripFormUpdateView from '../forms/trip-form-update-view/trip-form-update-view.js';
 import { RenderPosition } from '../../render.js';
@@ -52,8 +53,9 @@ export default class Presenter {
     const point = this.#pointsModel.getPointById(randomPointId);
     const offerByType = this.#offersModel.getOfferByType(point.type);
     const destination = this.#destinationsModel.getDestinationById(point.destination);
+    const destinations = this.#destinationsModel.getDestinationNames();
 
-    const tripFormCreateComponent = new TripFormCreateView(point, offerByType, destination);
+    const tripFormCreateComponent = new TripFormCreateView(point, offerByType, destination, destinations);
     render(tripFormCreateComponent, this.#eventsContainer);
   }
 
@@ -63,8 +65,9 @@ export default class Presenter {
     const point = this.#pointsModel.getPointById(randomPointId);
     const offerByType = this.#offersModel.getOfferByType(point.type);
     const destination = this.#destinationsModel.getDestinationById(point.destination);
+    const destinations = this.#destinationsModel.getDestinationNames();
 
-    const tripFormUpdateComponent = new TripFormUpdateView(point, offerByType, destination);
+    const tripFormUpdateComponent = new TripFormUpdateView(point, offerByType, destination, destinations);
     render(tripFormUpdateComponent, container);
   }
 
@@ -76,17 +79,17 @@ export default class Presenter {
     render(pointComponent, pointsContainer);
   }
 
+
   renderPoints() {
     const points = [...this.#pointsModel.getPoints()];
 
-    const pointsContainer = document.createElement('ul');
-    pointsContainer.classList.add('trip-events__list');
-    this.#eventsContainer.append(pointsContainer);
+    const pointsListComponent = new PointsListView();
+    render(pointsListComponent, this.#eventsContainer);
 
-    this.renderTripFormUpdate(pointsContainer);
+    this.renderTripFormUpdate(pointsListComponent.getElement());
 
     for (const point of points) {
-      this.renderPoint(pointsContainer, point);
+      this.renderPoint(pointsListComponent.getElement(), point);
     }
   }
 
