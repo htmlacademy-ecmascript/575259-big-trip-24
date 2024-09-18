@@ -8,11 +8,15 @@ const createSortItemTemplate = (filterName, isChecked = false) => `
 `;
 
 
-const createNewSortTemplate = () => `
+const createNewSortTemplate = () => {
+  const sortItemsTemplate = SORT_FILTERS.map(({ name, isChecked }) => createSortItemTemplate(name, isChecked)).join('');
+
+  return `
   <form class="trip-filters" action="#" method="get">
-      ${SORT_FILTERS.map(({ name, isChecked }) => createSortItemTemplate(name, isChecked)).join('')}
+      ${sortItemsTemplate}
     <button class="visually-hidden" type="submit">Accept filter</button>
   </form>
 `;
+};
 
 export { createNewSortTemplate };

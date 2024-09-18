@@ -13,8 +13,6 @@ const FILTERS = [
   {name: 'past', isChecked: false},
 ];
 
-const POINTS_COUNT = 3;
-
 const EVENT_TYPES = [
   'taxi',
   'bus',
@@ -27,18 +25,20 @@ const EVENT_TYPES = [
   'restaurant',
 ];
 
-const OFFERS = [
-  {title: 'Add luggage', price: 30, name: 'luggage', isChecked: true },
-  {title: 'Switch to comfort class', price: 100, name: 'comfort', isChecked: false },
-  {title: 'Add meal', price: 15, name: 'meal', isChecked: false },
-  {title: 'Choose seats', price: 5, name: 'seats', isChecked: false},
-  {title: 'Travel by train', price: 40, name: 'train', isChecked: false},
-];
+const POINTS_COUNT = 10;
+
+const MAX_DATE_DIFF = 86400000;
+
+const PriceLimit = {
+  MIN: 1000,
+  MAX: 100000,
+};
 
 export {
   SORT_FILTERS,
   FILTERS,
-  POINTS_COUNT,
   EVENT_TYPES,
-  OFFERS,
+  POINTS_COUNT,
+  MAX_DATE_DIFF,
+  PriceLimit,
 };

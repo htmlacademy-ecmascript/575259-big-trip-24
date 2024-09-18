@@ -5,16 +5,27 @@ import {
   createEventPriceTemplate,
   createEventDescriptionTemplate,
   createOfferSelectorTemplate,
+  createEventPhotosTemplate,
 } from '../common-templates.js';
-import { OFFERS } from '../../../contstants.js';
 
-const createTripFormUpdateTemplate = () => `
+const createTripFormUpdateTemplate = (point, offerByType, destination, destinations) => {
+  const offersTemplate = offerByType.offers
+    .map((offer) => createOfferSelectorTemplate(offer.title, offer.price, offer.name, offer.isChecked))
+    .join('');
+
+  const eventTypeSelectorTemplate = createEventTypeSelectorTemplate(point.type);
+  const eventDestinationTemplate = createEventDestinationTemplate(destination.name, point.type, destinations);
+  const eventTimeTemplate = createEventTimeTemplate(point.dateFrom, point.dateTo);
+  const eventPriceTemplate = createEventPriceTemplate(point.basePrice);
+  const eventDescriptionTemplate = createEventDescriptionTemplate(point.description);
+
+  return `
 <form class="event event--edit" action="#" method="post">
   <header class="event__header">
-    ${createEventTypeSelectorTemplate('flight')}
-    ${createEventDestinationTemplate('Chamonix')}
-    ${createEventTimeTemplate('18/03/19 12:25', '18/03/19 13:35')}
-    ${createEventPriceTemplate('160')}
+    ${eventTypeSelectorTemplate}
+    ${eventDestinationTemplate}
+    ${eventTimeTemplate}
+    ${eventPriceTemplate}
 
     <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
     <button class="event__reset-btn" type="reset">Delete</button>
@@ -27,15 +38,18 @@ const createTripFormUpdateTemplate = () => `
       <h3 class="event__section-title  event__section-title--offers">Offers</h3>
 
       <div class="event__available-offers">
-        ${OFFERS.map(({ title, price, name, isChecked }) => createOfferSelectorTemplate(title, price, name, isChecked)).join('')}
+        ${offersTemplate}
       </div>
     </section>
 
     <section class="event__section  event__section--destination">
-      ${createEventDescriptionTemplate('Chamonix-Mont-Blanc (usually shortened to Chamonix) is a resort area near the junction of France, Switzerland and Italy. At the base of Mont Blanc, the highest summit in the Alps, it\'s renowned for its skiing.')}
+      ${eventDescriptionTemplate}
+
+      ${destination.pictures && createEventPhotosTemplate(destination.pictures)}
     </section>
   </section>
 </form>
 `;
+};
 
 export { createTripFormUpdateTemplate };
