@@ -1,11 +1,12 @@
 export default class DestinationsModel {
   #destinations = [];
   #destinationNames = [];
+  #service = null;
 
   constructor(service) {
-    this.service = service;
-    this.#destinations = this.service.getDestinations();
-    this.#destinationNames = this.service.getDestinationNames();
+    this.#service = service;
+    this.#destinations = this.#service.getDestinations();
+    this.#destinationNames = this.#service.getDestinationNames();
   }
 
   getDestinations() {
@@ -17,6 +18,6 @@ export default class DestinationsModel {
   }
 
   getDestinationById(id) {
-    return this.service.getDestinationById(id);
+    return this.#service.getDestinationById(id);
   }
 }

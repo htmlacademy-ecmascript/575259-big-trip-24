@@ -1,4 +1,4 @@
-import { render } from '../render.js';
+import { render } from '../framework/render.js';
 import SortView from '../view/sort-view/sort-view.js';
 import FiltersView from '../view/filters-view/filters-view.js';
 import PointView from '../view/point-view/point-view.js';
@@ -6,7 +6,7 @@ import TripInfoView from '../view/trip-info-view/trip-info-view.js';
 import PointsListView from '../view/points-list-view/points-list-view.js';
 import TripFormCreateView from '../view/forms/trip-form-create-view/trip-form-create-view.js';
 import TripFormUpdateView from '../view/forms/trip-form-update-view/trip-form-update-view.js';
-import { RenderPosition } from '../render.js';
+import { RenderPosition } from '../framework/render.js';
 import { getRandomArrayElement } from '../utils.js';
 
 export default class Presenter {
@@ -86,10 +86,10 @@ export default class Presenter {
     const pointsListComponent = new PointsListView();
     render(pointsListComponent, this.#eventsContainer);
 
-    this.#renderTripFormUpdate(pointsListComponent.getElement());
+    this.#renderTripFormUpdate(pointsListComponent.element);
 
     for (const point of points) {
-      this.#renderPoint(pointsListComponent.getElement(), point);
+      this.#renderPoint(pointsListComponent.element, point);
     }
   }
 

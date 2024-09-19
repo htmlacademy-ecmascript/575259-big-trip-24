@@ -1,33 +1,21 @@
-import { createElement } from '../../../render.js';
 import { createTripFormCreateTemplate } from './templates.js';
+import AbstractView from '../../../framework/view/abstract-view.js';
 
-
-export default class TripFormCreateView {
+export default class TripFormCreateView extends AbstractView {
   #point;
   #destination;
   #offerByType;
   #destinations;
 
   constructor(point, offerByType, destination, destinations) {
+    super();
     this.#point = point;
     this.#offerByType = offerByType;
     this.#destination = destination;
     this.#destinations = destinations;
   }
 
-  getTemplate() {
+  get template() {
     return createTripFormCreateTemplate(this.#point, this.#offerByType, this.#destination, this.#destinations);
-  }
-
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
-    }
-
-    return this.element;
-  }
-
-  removeElement() {
-    this.element = null;
   }
 }

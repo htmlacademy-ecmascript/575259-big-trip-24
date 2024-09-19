@@ -16,7 +16,7 @@ export default class Service {
   constructor() {
     this.#destinations = destinationsMock;
     this.#offers = offersMock;
-    this.#points = this.generatePoints(POINTS_COUNT);
+    this.#points = this.#generatePoints(POINTS_COUNT);
   }
 
   getDestinations() {
@@ -47,7 +47,7 @@ export default class Service {
     return this.#points.find((point) => point.id === id);
   }
 
-  generatePoints(count) {
+  #generatePoints(count) {
     return Array.from({ length: count }, () => {
       const randomDateTo = getRandomDateBetween(new Date(), new Date(Date.now() + MAX_DATE_DIFF));
       const randomDateFrom = getRandomDateBetween(randomDateTo, new Date(Date.now() + MAX_DATE_DIFF));
