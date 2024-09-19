@@ -62,10 +62,10 @@ const createEventPriceTemplate = (price = '') => `
   </div>
 `;
 
-const createOfferSelectorTemplate = (title, price, name, isChecked) => `
+const createOfferSelectorTemplate = ({ id, title, price, name, isChecked = false }) => `
   <div class="event__offer-selector">
-    <input class="event__offer-checkbox  visually-hidden" id="event-offer-${name}-1" type="checkbox" name="event-offer-${name}" ${isChecked ? 'checked' : ''}>
-    <label class="event__offer-label" for="event-offer-${name}-1">
+    <input class="event__offer-checkbox  visually-hidden" id="event-offer-${name}-${id}" type="checkbox" name="event-offer-${name}" ${isChecked ? 'checked' : ''}>
+    <label class="event__offer-label" for="event-offer-${name}-${id}">
       <span class="event__offer-title">${title}</span>
       &plus;&euro;&nbsp;
       <span class="event__offer-price">${price}</span>

@@ -1,13 +1,13 @@
-import {render} from '../../render.js';
-import SortView from '../sort-view/sort-view.js';
-import FiltersView from '../filters-view/filters-view.js';
-import PointView from '../point-view/point-view.js';
-import TripInfoView from '../trip-info-view/trip-info-view.js';
-import PointsListView from '../points-list-view/points-list-view.js';
-import TripFormCreateView from '../forms/trip-form-create-view/trip-form-create-view.js';
-import TripFormUpdateView from '../forms/trip-form-update-view/trip-form-update-view.js';
-import { RenderPosition } from '../../render.js';
-import { getRandomArrayElement } from '../../utils.js';
+import { render } from '../render.js';
+import SortView from '../view/sort-view/sort-view.js';
+import FiltersView from '../view/filters-view/filters-view.js';
+import PointView from '../view/point-view/point-view.js';
+import TripInfoView from '../view/trip-info-view/trip-info-view.js';
+import PointsListView from '../view/points-list-view/points-list-view.js';
+import TripFormCreateView from '../view/forms/trip-form-create-view/trip-form-create-view.js';
+import TripFormUpdateView from '../view/forms/trip-form-update-view/trip-form-update-view.js';
+import { RenderPosition } from '../render.js';
+import { getRandomArrayElement } from '../utils.js';
 
 export default class Presenter {
   #pointsModel = null;
@@ -33,22 +33,22 @@ export default class Presenter {
     this.#destinationsModel = destinationsModel;
   }
 
-  renderTripInfo() {
+  #renderTripInfo() {
     const tripInfoComponent = new TripInfoView();
     render(tripInfoComponent, this.#tripInfoContainer, RenderPosition.AFTERBEGIN);
   }
 
-  renderFilters() {
+  #renderFilters() {
     const filtersComponent = new FiltersView();
     render(filtersComponent, this.#filtersContainer);
   }
 
-  renderSort() {
+  #renderSort() {
     const sortComponent = new SortView();
     render(sortComponent, this.#eventsContainer);
   }
 
-  renderTripFormCreate() {
+  #renderTripFormCreate() {
     const randomPointId = getRandomArrayElement(this.#pointsModel.getPoints()).id;
     const point = this.#pointsModel.getPointById(randomPointId);
     const offerByType = this.#offersModel.getOfferByType(point.type);
@@ -59,7 +59,7 @@ export default class Presenter {
     render(tripFormCreateComponent, this.#eventsContainer);
   }
 
-  renderTripFormUpdate(container) {
+  #renderTripFormUpdate(container) {
     const randomPointId = getRandomArrayElement(this.#pointsModel.getPoints()).id;
 
     const point = this.#pointsModel.getPointById(randomPointId);
@@ -71,7 +71,7 @@ export default class Presenter {
     render(tripFormUpdateComponent, container);
   }
 
-  renderPoint(pointsContainer, point) {
+  #renderPoint(pointsContainer, point) {
     const destination = this.#destinationsModel.getDestinationById(point.destination);
     const offerByType = this.#offersModel.getOfferByType(point.type);
 
@@ -80,24 +80,24 @@ export default class Presenter {
   }
 
 
-  renderPoints() {
+  #renderPoints() {
     const points = [...this.#pointsModel.getPoints()];
 
     const pointsListComponent = new PointsListView();
     render(pointsListComponent, this.#eventsContainer);
 
-    this.renderTripFormUpdate(pointsListComponent.getElement());
+    this.#renderTripFormUpdate(pointsListComponent.getElement());
 
     for (const point of points) {
-      this.renderPoint(pointsListComponent.getElement(), point);
+      this.#renderPoint(pointsListComponent.getElement(), point);
     }
   }
 
   init() {
-    this.renderTripInfo();
-    this.renderFilters();
-    this.renderSort();
-    this.renderTripFormCreate();
-    this.renderPoints();
+    this.#renderTripInfo();
+    this.#renderFilters();
+    this.#renderSort();
+    this.#renderTripFormCreate();
+    this.#renderPoints();
   }
 }

@@ -1,3 +1,4 @@
+import { DateFormat } from '../../contstants.js';
 import { getFormattedDate, getDuration } from '../../utils.js';
 
 const createOfferViewTemplate = (offer) => {
@@ -27,9 +28,9 @@ const createPointViewTemplate = (point, destination, offerByType) => {
   const offers = offerByType.offers;
 
   const isFavoriteClass = isFavorite ? 'event__favorite-btn--active' : '';
-  const currentDate = getFormattedDate(new Date(), 'MMM M');
-  const dateFromFormatted = getFormattedDate(dateFrom, 'HH:mm');
-  const dateToFormatted = getFormattedDate(dateTo, 'HH:mm');
+  const currentDate = getFormattedDate(new Date(), DateFormat.DATE);
+  const dateFromFormatted = getFormattedDate(dateFrom, DateFormat.TIME);
+  const dateToFormatted = getFormattedDate(dateTo, DateFormat.TIME);
   const duration = getDuration(dateFrom, dateTo);
 
   return`

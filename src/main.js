@@ -1,4 +1,4 @@
-import Presenter from './view/presenter/presenter.js';
+import Presenter from './presenter/presenter.js';
 import Service from './service/service.js';
 import PointsModel from './model/points-model.js';
 import OffersModel from './model/offers-model.js';
