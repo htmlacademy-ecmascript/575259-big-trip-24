@@ -9,11 +9,11 @@ export default class DestinationsModel {
     this.#destinationNames = this.#service.getDestinationNames();
   }
 
-  getDestinations() {
+  get destinations() {
     return this.#destinations;
   }
 
-  getDestinationNames() {
+  get destinationNames() {
     return this.#destinationNames;
   }
 

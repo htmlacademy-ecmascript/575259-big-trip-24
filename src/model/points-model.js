@@ -7,7 +7,7 @@ export default class PointsModel {
     this.#points = this.#service.getPoints();
   }
 
-  getPoints() {
+  get points() {
     return this.#points;
   }
 

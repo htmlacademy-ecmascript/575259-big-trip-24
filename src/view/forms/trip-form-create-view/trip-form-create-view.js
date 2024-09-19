@@ -2,10 +2,10 @@ import { createTripFormCreateTemplate } from './templates.js';
 import AbstractView from '../../../framework/view/abstract-view.js';
 
 export default class TripFormCreateView extends AbstractView {
-  #point;
-  #destination;
-  #offerByType;
-  #destinations;
+  #point = null;
+  #destination = null;
+  #offerByType = null;
+  #destinations = [];
 
   constructor(point, offerByType, destination, destinations) {
     super();

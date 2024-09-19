@@ -39,6 +39,10 @@ const DateFormat = {
   TIME: 'HH:mm',
 };
 
+const KeyCode = {
+  ESCAPE: 'Escape',
+};
+
 export {
   SORT_FILTERS,
   FILTERS,
@@ -47,4 +51,5 @@ export {
   MAX_DATE_DIFF,
   PriceLimit,
   DateFormat,
+  KeyCode,
 };
