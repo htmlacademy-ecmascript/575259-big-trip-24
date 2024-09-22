@@ -1,13 +1,13 @@
 import { EVENT_TYPES } from '../../contstants.js';
 import { capitalizeFirstLetter, getFormattedDate } from '../../utils.js';
 
-const createEventTypeSelectorTemplate = (selectedType = 'flight') => `
+const createEventTypeSelectorTemplate = (id, selectedType = 'flight') => `
   <div class="event__type-wrapper">
-    <label class="event__type  event__type-btn" for="event-type-toggle-1">
+    <label class="event__type  event__type-btn" for="event-type-toggle-${id}">
       <span class="visually-hidden">Выберите тип события</span>
       <img class="event__type-icon" width="17" height="17" src="img/icons/${selectedType}.png" alt="Иконка типа события">
     </label>
-    <input class="event__type-toggle  visually-hidden" id="event-type-toggle-1" type="checkbox">
+    <input class="event__type-toggle  visually-hidden" id="event-type-toggle-${id}" type="checkbox">
 
     <div class="event__type-list">
       <fieldset class="event__type-group">
@@ -15,8 +15,8 @@ const createEventTypeSelectorTemplate = (selectedType = 'flight') => `
         ${EVENT_TYPES
     .map((type) => `
             <div class="event__type-item">
-              <input id="event-type-${type}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${type}" ${type === selectedType ? 'checked' : ''}>
-              <label class="event__type-label  event__type-label--${type}" for="event-type-${type}-1">${capitalizeFirstLetter(type)}</label>
+              <input id="event-type-${type}-${id}" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${type}" ${type === selectedType ? 'checked' : ''}>
+              <label class="event__type-label  event__type-label--${type}" for="event-type-${type}-${id}">${capitalizeFirstLetter(type)}</label>
             </div>
           `)
     .join('')}
@@ -62,10 +62,10 @@ const createEventPriceTemplate = (price = '') => `
   </div>
 `;
 
-const createOfferSelectorTemplate = (title, price, name, isChecked) => `
+const createOfferSelectorTemplate = ({ id, title, price, name, isChecked = false }) => `
   <div class="event__offer-selector">
-    <input class="event__offer-checkbox  visually-hidden" id="event-offer-${name}-1" type="checkbox" name="event-offer-${name}" ${isChecked ? 'checked' : ''}>
-    <label class="event__offer-label" for="event-offer-${name}-1">
+    <input class="event__offer-checkbox  visually-hidden" id="event-offer-${name}-${id}" type="checkbox" name="event-offer-${name}" ${isChecked ? 'checked' : ''}>
+    <label class="event__offer-label" for="event-offer-${name}-${id}">
       <span class="event__offer-title">${title}</span>
       &plus;&euro;&nbsp;
       <span class="event__offer-price">${price}</span>

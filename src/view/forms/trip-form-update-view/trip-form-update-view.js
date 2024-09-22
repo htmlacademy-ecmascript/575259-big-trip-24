@@ -1,33 +1,39 @@
-import { createElement } from '../../../render.js';
 import { createTripFormUpdateTemplate } from './templates.js';
+import AbstractView from '../../../framework/view/abstract-view.js';
 
+export default class TripFormUpdateView extends AbstractView {
+  #point = null;
+  #offerByType = null;
+  #destination = null;
+  #destinations = [];
+  #onFormSubmit = null;
+  #onCancelClick = null;
 
-export default class TripFormUpdateView {
-  #point;
-  #offerByType;
-  #destination;
-  #destinations;
-
-  constructor(point, offerByType, destination, destinations) {
+  constructor({ point, offerByType, destination, destinations, onFormSubmit, onCancelClick }) {
+    super();
     this.#point = point;
     this.#offerByType = offerByType;
     this.#destination = destination;
     this.#destinations = destinations;
+    this.#onFormSubmit = onFormSubmit;
+    this.#onCancelClick = onCancelClick;
+
+    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#cancelClickHandler);
+    this.element.querySelector('.event__save-btn').addEventListener('click', this.#formSubmitHandler);
+    this.element.querySelector('.event__reset-btn').addEventListener('click', this.#cancelClickHandler);
   }
 
-  getTemplate() {
+  get template() {
     return createTripFormUpdateTemplate(this.#point, this.#offerByType, this.#destination, this.#destinations);
   }
 
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
-    }
+  #formSubmitHandler = (event) => {
+    event.preventDefault();
+    this.#onFormSubmit();
+  };
 
-    return this.element;
-  }
-
-  removeElement() {
-    this.element = null;
-  }
+  #cancelClickHandler = (event) => {
+    event.preventDefault();
+    this.#onCancelClick();
+  };
 }

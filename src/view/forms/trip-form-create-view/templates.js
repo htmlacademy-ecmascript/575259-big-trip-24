@@ -10,11 +10,11 @@ import {
 
 
 const createTripFormCreateTemplate = (point, offerByType, destination, destinations) => {
-  const eventTypeSelectorTemplate = createEventTypeSelectorTemplate(point.type);
+  const eventTypeSelectorTemplate = createEventTypeSelectorTemplate(point.id, point.type);
   const eventDestinationTemplate = createEventDestinationTemplate(destination.name, point.type, destinations);
   const eventTimeTemplate = createEventTimeTemplate(point.dateFrom, point.dateTo);
   const eventPriceTemplate = createEventPriceTemplate(point.basePrice);
-  const offersTemplate = offerByType.offers.map(({ title, price, name, isChecked }) => createOfferSelectorTemplate(title, price, name, isChecked)).join('');
+  const offersTemplate = offerByType.offers.map(({ id, title, price, name }) => createOfferSelectorTemplate({ id, title, price, name })).join('');
   const eventDescriptionTemplate = createEventDescriptionTemplate(point.description);
 
   return `

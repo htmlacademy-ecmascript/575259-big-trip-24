@@ -43,7 +43,7 @@ const getDuration = (dateFrom, dateTo) => {
   }
 };
 
-const capitalizeFirstLetter = (string) => string.charAt(0).toUpperCase() + string.slice(1);
+const capitalizeFirstLetter = (text) => text.charAt(0).toUpperCase() + text.slice(1);
 
 export {
   getRandomArrayElement,

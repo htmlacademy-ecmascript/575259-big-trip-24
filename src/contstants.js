@@ -34,6 +34,15 @@ const PriceLimit = {
   MAX: 100000,
 };
 
+const DateFormat = {
+  DATE: 'MMM M',
+  TIME: 'HH:mm',
+};
+
+const KeyCode = {
+  ESCAPE: 'Escape',
+};
+
 export {
   SORT_FILTERS,
   FILTERS,
@@ -41,4 +50,6 @@ export {
   POINTS_COUNT,
   MAX_DATE_DIFF,
   PriceLimit,
+  DateFormat,
+  KeyCode,
 };
