@@ -101,12 +101,12 @@ export default class Presenter {
     };
 
     const destination = this.#destinationsModel.getDestinationById(point.destination);
-    const offerByType = this.#offersModel.getOfferByType(point.type);
+    const offers = point.offers;
 
     const pointComponentView = new PointView({
       point,
       destination,
-      offerByType,
+      offers,
       onEditClick: editClickHandler,
     });
 

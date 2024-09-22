@@ -62,6 +62,7 @@ const createEventPriceTemplate = (price = '') => `
   </div>
 `;
 
+
 const createOfferSelectorTemplate = ({ id, title, price, name, isChecked = false }) => `
   <div class="event__offer-selector">
     <input class="event__offer-checkbox  visually-hidden" id="event-offer-${name}-${id}" type="checkbox" name="event-offer-${name}" ${isChecked ? 'checked' : ''}>
@@ -71,6 +72,16 @@ const createOfferSelectorTemplate = ({ id, title, price, name, isChecked = false
       <span class="event__offer-price">${price}</span>
     </label>
   </div>
+`;
+
+const createOffersSectionTemplate = (offers = []) => `
+  <section class="event__section  event__section--offers">
+    <h3 class="event__section-title  event__section-title--offers">Offers</h3>
+
+    <div class="event__available-offers">
+      ${offers.map((offer) => createOfferSelectorTemplate(offer)).join('')}
+    </div>
+  </section>
 `;
 
 
@@ -97,4 +108,5 @@ export {
   createEventDescriptionTemplate,
   createOfferSelectorTemplate,
   createEventPhotosTemplate,
+  createOffersSectionTemplate,
 };

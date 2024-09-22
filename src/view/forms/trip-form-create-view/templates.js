@@ -4,17 +4,18 @@ import {
   createEventTimeTemplate,
   createEventPriceTemplate,
   createEventDescriptionTemplate,
-  createOfferSelectorTemplate,
   createEventPhotosTemplate,
+  createOffersSectionTemplate,
 } from '../common-templates.js';
 
 
 const createTripFormCreateTemplate = (point, offerByType, destination, destinations) => {
+  const { offers } = offerByType;
+
   const eventTypeSelectorTemplate = createEventTypeSelectorTemplate(point.id, point.type);
   const eventDestinationTemplate = createEventDestinationTemplate(destination.name, point.type, destinations);
   const eventTimeTemplate = createEventTimeTemplate(point.dateFrom, point.dateTo);
   const eventPriceTemplate = createEventPriceTemplate(point.basePrice);
-  const offersTemplate = offerByType.offers.map(({ id, title, price, name }) => createOfferSelectorTemplate({ id, title, price, name })).join('');
   const eventDescriptionTemplate = createEventDescriptionTemplate(point.description);
 
   return `
@@ -29,13 +30,7 @@ const createTripFormCreateTemplate = (point, offerByType, destination, destinati
       <button class="event__reset-btn" type="reset">Cancel</button>
     </header>
     <section class="event__details">
-      <section class="event__section  event__section--offers">
-        <h3 class="event__section-title  event__section-title--offers">Offers</h3>
-
-        <div class="event__available-offers">
-          ${offersTemplate}
-        </div>
-      </section>
+      ${offers.length > 0 ? createOffersSectionTemplate(offers) : ''}
 
       <section class="event__section  event__section--destination">
         ${eventDescriptionTemplate}
