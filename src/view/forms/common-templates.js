@@ -1,4 +1,4 @@
-import { EVENT_TYPES } from '../../contstants.js';
+import { EVENT_TYPES, DateFormat } from '../../constants.js';
 import { capitalizeFirstLetter, getFormattedDate } from '../../utils.js';
 
 const createEventTypeSelectorTemplate = (id, selectedType = 'flight') => `
@@ -38,8 +38,8 @@ const createEventDestinationTemplate = (selectedDestination = 'Amsterdam', selec
 `;
 
 const createEventTimeTemplate = (startTime = new Date(), endTime = new Date()) => {
-  const startDateFormatted = getFormattedDate(startTime, 'DD/MM/YY HH:mm');
-  const endDateFormatted = getFormattedDate(endTime, 'DD/MM/YY HH:mm');
+  const startDateFormatted = getFormattedDate(startTime, DateFormat.DATE_TIME);
+  const endDateFormatted = getFormattedDate(endTime, DateFormat.DATE_TIME);
 
   return `
   <div class="event__field-group  event__field-group--time">

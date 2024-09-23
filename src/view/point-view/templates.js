@@ -1,4 +1,4 @@
-import { DateFormat } from '../../contstants.js';
+import { DateFormat } from '../../constants.js';
 import { getFormattedDate, getDuration } from '../../utils.js';
 
 const createOfferViewTemplate = (offer) => {

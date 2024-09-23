@@ -1,5 +1,5 @@
 import { destinationsMock, offersMock } from '../mock/index.js';
-import { POINTS_COUNT, MAX_DATE_DIFF, PriceLimit, EVENT_TYPES } from '../contstants.js';
+import { POINTS_COUNT, MAX_DATE_DIFF, PriceLimit, EVENT_TYPES } from '../constants.js';
 import {
   getRandomArrayElement,
   getRandomInteger,

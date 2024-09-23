@@ -1,15 +1,19 @@
-import { FILTERS } from '../../contstants.js';
+import { FILTER, DEFAULT_FILTER_TYPE } from '../../constants.js';
 
-const createFilterItemTemplate = (filterName, isChecked = false) => `
-<div class="trip-filters__filter">
-  <input id="filter-${filterName}" class="trip-filters__filter-input  visually-hidden" type="radio" name="trip-filter" value="${filterName}" ${isChecked ? 'checked' : ''}>
-  <label class="trip-filters__filter-label" for="filter-${filterName}">${filterName}</label>
-</div>
-`;
+const createFilterItemTemplate = (filterName, isVisible) => {
+  const isActive = filterName === DEFAULT_FILTER_TYPE;
+
+  return `
+    <div class="trip-filters__filter">
+      <input id="filter-${filterName}" class="trip-filters__filter-input  visually-hidden" type="radio" name="trip-filter" value="${filterName}" ${isVisible ? '' : 'disabled'} ${isActive ? 'checked' : ''}>
+      <label class="trip-filters__filter-label" for="filter-${filterName}">${filterName}</label>
+    </div>
+  `;
+};
 
 
-const createNewFiltersTemplate = () => {
-  const filterItemsTemplate = FILTERS.map(({ name, isChecked }) => createFilterItemTemplate(name, isChecked)).join('');
+const createNewFiltersTemplate = (points) => {
+  const filterItemsTemplate = Object.entries(FILTER).map(([name, isVisible]) => createFilterItemTemplate(name, isVisible(points))).join('');
 
   return `
   <form class="trip-filters" action="#" method="get">
