@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 
+
 const getRandomArrayElement = (items) => items[Math.floor(Math.random() * items.length)];
 
 const getRandomPhotoUrl = () => `https://loremflickr.com/248/152?random=${Math.floor(Math.random() * 1000)}`;
@@ -45,6 +46,18 @@ const getDuration = (dateFrom, dateTo) => {
 
 const capitalizeFirstLetter = (text) => text.charAt(0).toUpperCase() + text.slice(1);
 
+const getFilterStatus = (points) => {
+  const currentDate = dayjs();
+
+
+  return {
+    isPointsFuture: points.some((point) => dayjs(point.dateFrom).isAfter(currentDate)),
+    isPointsPresent: points.some((point) => dayjs(point.dateFrom).isSame(currentDate)),
+    isPointsPast: points.some((point) => dayjs(point.dateTo).isBefore(currentDate)),
+  };
+};
+
+
 export {
   getRandomArrayElement,
   getRandomPhotoUrl,
@@ -55,4 +68,7 @@ export {
   getRandomBoolean,
   getRandomDateBetween,
   generateDateToDateFrom,
+  getFilterStatus,
 };
+
+

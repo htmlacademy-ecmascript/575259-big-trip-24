@@ -1,4 +1,4 @@
-import { DateFormat } from '../../contstants.js';
+import { DateFormat } from '../../constants.js';
 import { getFormattedDate, getDuration } from '../../utils.js';
 
 const createOfferViewTemplate = (offer) => {
@@ -15,7 +15,7 @@ const createOfferViewTemplate = (offer) => {
   </li>`;
 };
 
-const createPointViewTemplate = (point, destination, offerByType) => {
+const createPointViewTemplate = (point, destination, offers) => {
 
   const {
     basePrice,
@@ -25,7 +25,6 @@ const createPointViewTemplate = (point, destination, offerByType) => {
     type,
   } = point;
 
-  const offers = offerByType.offers;
 
   const isFavoriteClass = isFavorite ? 'event__favorite-btn--active' : '';
   const currentDate = getFormattedDate(new Date(), DateFormat.DATE);

@@ -6,9 +6,10 @@ import TripInfoView from '../view/trip-info-view/trip-info-view.js';
 import PointsListView from '../view/points-list-view/points-list-view.js';
 import TripFormCreateView from '../view/forms/trip-form-create-view/trip-form-create-view.js';
 import TripFormUpdateView from '../view/forms/trip-form-update-view/trip-form-update-view.js';
+import EmptyPointsView from '../view/empty-points-view/empty-points-view.js';
 import { RenderPosition } from '../framework/render.js';
 import { getRandomArrayElement } from '../utils.js';
-import { KeyCode } from '../contstants.js';
+import { KeyCode } from '../constants.js';
 export default class Presenter {
   #pointsModel = null;
   #offersModel = null;
@@ -33,13 +34,31 @@ export default class Presenter {
     this.#destinationsModel = destinationsModel;
   }
 
+
+  init() {
+    this.#renderTripInfo();
+    this.#renderFilters();
+    this.#renderSort();
+
+    if (this.#pointsModel.points.length === 0) {
+      this.#renderEmptyPoints();
+    } else {
+      this.#renderPoints();
+    }
+  }
+
+  #renderEmptyPoints() {
+    const emptyPointsComponent = new EmptyPointsView();
+    render(emptyPointsComponent, this.#eventsContainer);
+  }
+
   #renderTripInfo() {
     const tripInfoComponent = new TripInfoView();
     render(tripInfoComponent, this.#tripInfoContainer, RenderPosition.AFTERBEGIN);
   }
 
   #renderFilters() {
-    const filtersComponent = new FiltersView();
+    const filtersComponent = new FiltersView(this.#pointsModel.points);
     render(filtersComponent, this.#filtersContainer);
   }
 
@@ -101,12 +120,12 @@ export default class Presenter {
     };
 
     const destination = this.#destinationsModel.getDestinationById(point.destination);
-    const offerByType = this.#offersModel.getOfferByType(point.type);
+    const offers = point.offers;
 
     const pointComponentView = new PointView({
       point,
       destination,
-      offerByType,
+      offers,
       onEditClick: editClickHandler,
     });
 
@@ -139,10 +158,4 @@ export default class Presenter {
     }
   }
 
-  init() {
-    this.#renderTripInfo();
-    this.#renderFilters();
-    this.#renderSort();
-    this.#renderPoints();
-  }
 }

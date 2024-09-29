@@ -1,5 +1,5 @@
 import { destinationsMock, offersMock } from '../mock/index.js';
-import { POINTS_COUNT, MAX_DATE_DIFF, PriceLimit, EVENT_TYPES } from '../contstants.js';
+import { POINTS_COUNT, MAX_DATE_DIFF, PriceLimit, EVENT_TYPES } from '../constants.js';
 import {
   getRandomArrayElement,
   getRandomInteger,
@@ -54,6 +54,10 @@ export default class Service {
 
       const { dateFrom, dateTo} = generateDateToDateFrom(randomDateFrom, randomDateTo);
 
+      const type = getRandomArrayElement(EVENT_TYPES);
+      const offersByType = this.getOfferByType(type).offers;
+      const randomOffers = offersByType.slice(0, getRandomInteger(0, offersByType.length - 1));
+
       return {
         id: crypto.randomUUID(),
         basePrice: getRandomInteger(PriceLimit.MIN, PriceLimit.MAX),
@@ -61,8 +65,8 @@ export default class Service {
         dateTo,
         destination: getRandomArrayElement(this.#destinations).id,
         isFavorite: getRandomBoolean(),
-        offers: getRandomArrayElement(this.#offers).offers,
-        type: getRandomArrayElement(EVENT_TYPES),
+        offers: randomOffers,
+        type,
       };
     });
   }

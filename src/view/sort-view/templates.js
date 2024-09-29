@@ -1,4 +1,4 @@
-import { SORT_FILTERS } from '../../contstants.js';
+import { SORT_FILTERS } from '../../constants.js';
 
 const createSortItemTemplate = (filterName, isChecked = false) => `
   <div class="trip-sort__item  trip-sort__item--${filterName}">
