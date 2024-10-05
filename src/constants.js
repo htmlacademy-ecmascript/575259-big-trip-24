@@ -62,6 +62,11 @@ const EmptyPointsText = {
 
 const DEFAULT_FILTER_TYPE = filterType.everything;
 
+const ViewMode = {
+  VIEW: 'view',
+  EDIT: 'edit',
+};
+
 export {
   SORT_FILTERS,
   FILTER,
@@ -73,4 +78,5 @@ export {
   KeyCode,
   EmptyPointsText,
   DEFAULT_FILTER_TYPE,
+  ViewMode,
 };

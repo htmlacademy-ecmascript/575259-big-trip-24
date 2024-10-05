@@ -57,6 +57,8 @@ const getFilterStatus = (points) => {
   };
 };
 
+const updateItem = (items, update) => items.map((item) => item.id === update.id ? update : item);
+
 
 export {
   getRandomArrayElement,
@@ -69,6 +71,7 @@ export {
   getRandomDateBetween,
   generateDateToDateFrom,
   getFilterStatus,
+  updateItem,
 };
 
 
