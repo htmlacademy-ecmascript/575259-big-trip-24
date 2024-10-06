@@ -8,8 +8,9 @@ export default class TripFormUpdateView extends AbstractView {
   #destinations = [];
   #onFormSubmit = null;
   #onCancelClick = null;
+  #onPointChange = null;
 
-  constructor({ point, offerByType, destination, destinations, onFormSubmit, onCancelClick }) {
+  constructor({ point, offerByType, destination, destinations, onFormSubmit, onCancelClick, onPointChange }) {
     super();
     this.#point = point;
     this.#offerByType = offerByType;
@@ -17,6 +18,7 @@ export default class TripFormUpdateView extends AbstractView {
     this.#destinations = destinations;
     this.#onFormSubmit = onFormSubmit;
     this.#onCancelClick = onCancelClick;
+    this.#onPointChange = onPointChange;
 
     this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#cancelClickHandler);
     this.element.querySelector('.event__save-btn').addEventListener('click', this.#formSubmitHandler);
@@ -35,5 +37,10 @@ export default class TripFormUpdateView extends AbstractView {
   #cancelClickHandler = (event) => {
     event.preventDefault();
     this.#onCancelClick();
+  };
+
+  #pointChangeHandler = (event) => {
+    event.preventDefault();
+    this.#onPointChange();
   };
 }
