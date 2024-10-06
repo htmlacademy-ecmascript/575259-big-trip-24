@@ -82,6 +82,7 @@ export default class Presenter {
     const randomPointId = getRandomArrayElement(this.#pointsModel.points).id;
     const point = this.#pointsModel.getPointById(randomPointId);
     const offerByType = this.#offersModel.getOfferByType(point.type);
+
     const destination = this.#destinationsModel.getDestinationById(point.destination);
     const destinations = this.#destinationsModel.destinationNames;
 
