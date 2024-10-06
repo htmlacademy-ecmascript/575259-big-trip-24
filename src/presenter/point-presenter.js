@@ -36,30 +36,6 @@ export default class PointPresenter {
     const destination = this.#destinationsModel.getDestinationById(point.destination);
     const offers = point.offers;
 
-    const escKeyDownHandler = (event) => {
-      if (event.key === KeyCode.ESCAPE) {
-        event.preventDefault();
-        replaceFormToView();
-        document.removeEventListener('keydown', escKeyDownHandler);
-      }
-    };
-
-    const editClickHandler = () => {
-      replaceViewToForm();
-      document.addEventListener('keydown', escKeyDownHandler);
-    };
-
-    const formSubmitHandler = () => {
-    // TODO: add submit handler
-      replaceFormToView();
-      document.removeEventListener('keydown', escKeyDownHandler);
-    };
-
-    const cancelClickHandler = () => {
-      replaceFormToView();
-      document.removeEventListener('keydown', escKeyDownHandler);
-    };
-
     const prevPointComponentView = this.#pointComponentView;
     const prevPointComponentUpdate = this.#pointComponentUpdate;
 
@@ -67,43 +43,42 @@ export default class PointPresenter {
       point,
       destination,
       offers,
-      onEditClick: editClickHandler,
-      onPointChange: this.#onPointChange,
+      onEditClick: this.#editClickHandler,
+      onFavouriteClick: this.#handleFavouriteClick,
     });
 
     this.#pointComponentUpdate = this.#getTripFormUpdate({
       pointId: point.id,
-      onFormSubmit: formSubmitHandler,
-      onCancelClick: cancelClickHandler,
-      onPointChange: this.#handlePointChange,
+      onFormSubmit: this.#formSubmitHandler,
+      onCancelClick: this.#cancelClickHandler,
     });
 
     if (prevPointComponentView === null || prevPointComponentUpdate === null) {
       render(this.#pointComponentView, this.#container);
+      return;
     }
 
-    // if (this.#mode === ViewMode.VIEW) {
-    //   replace(this.#pointComponentView, this.#pointComponentUpdate);
-    // }
-
-    // if (this.#mode === ViewMode.EDIT) {
-    //   replace(this.#pointComponentUpdate, this.#pointComponentView);
-    // }
-
-    function replaceViewToForm() {
-      replace(this.#pointComponentUpdate, this.#pointComponentView);
-      this.#mode = ViewMode.EDIT;
+    if (this.#mode === ViewMode.VIEW) {
+      replace(this.#pointComponentView, prevPointComponentView);
     }
 
-    function replaceFormToView() {
-      replace(this.#pointComponentView, this.#pointComponentUpdate);
-      this.#mode = ViewMode.VIEW;
+    if (this.#mode === ViewMode.EDIT) {
+      replace(this.#pointComponentUpdate, prevPointComponentUpdate);
     }
 
     remove(prevPointComponentView);
     remove(prevPointComponentUpdate);
+  }
 
+  destroy() {
+    remove(this.#pointComponentView);
+    remove(this.#pointComponentUpdate);
+  }
 
+  resetView() {
+    if (this.#mode !== ViewMode.VIEW) {
+      this.#replaceFormToView();
+    }
   }
 
   #getTripFormUpdate({ pointId, onFormSubmit, onCancelClick }) {
@@ -122,14 +97,49 @@ export default class PointPresenter {
     });
   }
 
-  #handlePointChange() {
+  #handleModeChange() {
+    this.#onModeChange();
+  }
+
+  #replaceViewToForm() {
+    this.#handleModeChange();
+    replace(this.#pointComponentUpdate, this.#pointComponentView);
+    this.#mode = ViewMode.EDIT;
+  }
+
+  #replaceFormToView() {
+    replace(this.#pointComponentView, this.#pointComponentUpdate);
+    this.#mode = ViewMode.VIEW;
+  }
+
+  #escKeyDownHandler = (event) => {
+    if (event.key === KeyCode.ESCAPE) {
+      event.preventDefault();
+      this.#replaceFormToView();
+      document.removeEventListener('keydown', this.#escKeyDownHandler);
+    }
+  };
+
+  #editClickHandler = () => {
+    this.#replaceViewToForm();
+    document.addEventListener('keydown', this.#escKeyDownHandler);
+  };
+
+  #formSubmitHandler = () => {
+  // TODO: add submit handler
+    this.#replaceFormToView();
+    document.removeEventListener('keydown', this.#escKeyDownHandler);
+  };
+
+  #cancelClickHandler = () => {
+    this.#replaceFormToView();
+    document.removeEventListener('keydown', this.#escKeyDownHandler);
+  };
+
+  #handleFavouriteClick = () => {
     this.#onPointChange({
       ...this.#point,
       isFavorite: !this.#point.isFavorite,
     });
-  }
-
-  #handleModeChange() {
-    this.#onModeChange();
-  }
+  };
 }

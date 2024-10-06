@@ -1,11 +1,19 @@
 import { getFilterStatus } from './utils.js';
 
+const sortTypes = {
+  day: 'day',
+  event: 'event',
+  time: 'time',
+  price: 'price',
+  offers: 'offers',
+};
+
 const SORT_FILTERS = [
-  {name: 'day', isChecked: true},
-  {name: 'event', isChecked: false},
-  {name: 'time', isChecked: false},
-  {name: 'price', isChecked: false},
-  {name: 'offers', isChecked: false},
+  { name: sortTypes.day, disabled: false },
+  { name: sortTypes.event, disabled: true },
+  { name: sortTypes.time, disabled: false },
+  { name: sortTypes.price, disabled: false },
+  { name: sortTypes.offers, disabled: true },
 ];
 
 const filterType = {
@@ -67,6 +75,8 @@ const ViewMode = {
   EDIT: 'edit',
 };
 
+const sortByDefault = sortTypes.day;
+
 export {
   SORT_FILTERS,
   FILTER,
@@ -79,4 +89,6 @@ export {
   EmptyPointsText,
   DEFAULT_FILTER_TYPE,
   ViewMode,
+  sortByDefault,
+  sortTypes,
 };

@@ -59,6 +59,11 @@ const getFilterStatus = (points) => {
 
 const updateItem = (items, update) => items.map((item) => item.id === update.id ? update : item);
 
+const sortingPoints = {
+  day: (points) => points.sort((pointA, pointB) => dayjs(pointA.dateFrom).diff(dayjs(pointB.dateFrom))),
+  time: (points) => points.sort((pointA, pointB) => dayjs(pointA.dateTo).diff(dayjs(pointA.dateFrom)) - dayjs(pointB.dateTo).diff(dayjs(pointB.dateFrom))),
+  price: (points) => points.sort((pointA, pointB) => pointA.basePrice - pointB.basePrice),
+};
 
 export {
   getRandomArrayElement,
@@ -72,6 +77,7 @@ export {
   generateDateToDateFrom,
   getFilterStatus,
   updateItem,
+  sortingPoints,
 };
 
 
