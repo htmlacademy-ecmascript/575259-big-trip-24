@@ -25,13 +25,13 @@ const createEventTypeSelectorTemplate = (id, selectedType = 'flight') => `
   </div>
 `;
 
-const createEventDestinationTemplate = (selectedDestination = 'Amsterdam', selectedType = 'flight', destinations = []) => `
+const createEventDestinationTemplate = (id, selectedDestination = 'Amsterdam', selectedType = 'flight', destinations = []) => `
   <div class="event__field-group  event__field-group--destination">
-    <label class="event__label  event__type-output" for="event-destination-1">
+    <label class="event__label  event__type-output" for="event-destination-${id}">
       ${selectedType}
     </label>
-    <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${selectedDestination}" list="destination-list-1">
-    <datalist id="destination-list-1">
+    <input class="event__input  event__input--destination" id="event-destination-${id}" type="text" name="event-destination" value="${selectedDestination}" list="destination-list-${id}">
+    <datalist id="destination-list-${id}">
       ${destinations.map((destination) => `<option value="${destination}"></option>`).join('')}
     </datalist>
   </div>
@@ -100,13 +100,60 @@ const createEventPhotosTemplate = (photos = []) => `
   </div>
 `;
 
-export {
-  createEventTypeSelectorTemplate ,
-  createEventDestinationTemplate,
-  createEventTimeTemplate,
-  createEventPriceTemplate,
-  createEventDescriptionTemplate,
-  createOfferSelectorTemplate,
-  createEventPhotosTemplate,
-  createOffersSectionTemplate,
+const createButtonsTemplate = (isCreateMode) => `
+  <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
+  <button class="event__reset-btn" type="reset">${isCreateMode ? 'Cancel' : 'Delete'}</button>
+  ${!isCreateMode ? `<button class="event__rollup-btn" type="button">
+    <span class="visually-hidden">Open event</span>
+  </button>` : ''}
+`;
+
+const createTripFormTemplate = ({ point, offers, destination, destinations, isCreateMode = false }) => {
+  const offersIds = point.offers.map((currentOffer) => currentOffer.id);
+
+  const preparedOffers = offers.map((offer) => {
+    const isChecked = offersIds.includes(offer.id);
+
+    return {
+      id: offer.id,
+      title: offer.title,
+      price: offer.price,
+      name: offer.name,
+      isChecked
+    };
+  });
+
+  const eventTypeSelectorTemplate = createEventTypeSelectorTemplate(point.id,point.type);
+  const eventDestinationTemplate = createEventDestinationTemplate(point.id, destination.name, point.type, destinations);
+  const eventTimeTemplate = createEventTimeTemplate(point.dateFrom, point.dateTo);
+  const eventPriceTemplate = createEventPriceTemplate(point.basePrice);
+  const eventDescriptionTemplate = createEventDescriptionTemplate(destination.description);
+
+  const hasViewDestinationSection = destination.description || destination.pictures.length > 0;
+  const hasViewOffersSection = offers.length > 0;
+
+  return `
+    <form class="event event--edit" action="#" method="post">
+      <header class="event__header">
+        ${eventTypeSelectorTemplate}
+        ${eventDestinationTemplate}
+        ${eventTimeTemplate}
+        ${eventPriceTemplate}
+
+        ${createButtonsTemplate(isCreateMode)}
+      </header>
+      <section class="event__details">
+        ${hasViewOffersSection ? createOffersSectionTemplate(preparedOffers) : ''}
+
+        ${hasViewDestinationSection ?
+    `<section class="event__section  event__section--destination">
+            ${destination.description ? eventDescriptionTemplate : ''}
+
+            ${destination.pictures.length > 0 ? createEventPhotosTemplate(destination.pictures) : ''}
+          </section>` : ''}
+      </section>
+    </form>
+  `;
 };
+
+export { createTripFormTemplate };

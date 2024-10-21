@@ -20,4 +20,8 @@ export default class DestinationsModel {
   getDestinationById(id) {
     return this.#service.getDestinationById(id);
   }
+
+  getDestinationByName(name) {
+    return this.#service.getDestinationByName(name);
+  }
 }

@@ -1,5 +1,5 @@
 import PointView from '../view/point-view/point-view.js';
-import TripFormUpdateView from '../view/forms/trip-form-update-view/trip-form-update-view.js';
+import TripFormView from '../view/trip-form-view/trip-form-view.js';
 import { render, replace, remove } from '../framework/render.js';
 import { KeyCode, ViewMode } from '../constants.js';
 
@@ -47,10 +47,12 @@ export default class PointPresenter {
       onFavouriteClick: this.#handleFavouriteClick,
     });
 
-    this.#pointComponentUpdate = this.#getTripFormUpdate({
+    this.#pointComponentUpdate = this.#getTripForm({
       pointId: point.id,
       onFormSubmit: this.#formSubmitHandler,
       onCancelClick: this.#cancelClickHandler,
+      getDestinationByName: this.#getDestinationByName,
+      getOfferByType: this.#getOfferByType,
     });
 
     if (prevPointComponentView === null || prevPointComponentUpdate === null) {
@@ -81,19 +83,25 @@ export default class PointPresenter {
     }
   }
 
-  #getTripFormUpdate({ pointId, onFormSubmit, onCancelClick }) {
+  #getDestinationByName = (name) => this.#destinationsModel.getDestinationByName(name);
+
+  #getOfferByType = (type) => this.#offersModel.getOfferByType(type);
+
+  #getTripForm({ pointId, onFormSubmit, onCancelClick, getDestinationByName, getOfferByType }) {
     const point = this.#pointsModel.getPointById(pointId);
     const offerByType = this.#offersModel.getOfferByType(point.type);
     const destination = this.#destinationsModel.getDestinationById(point.destination);
     const destinations = this.#destinationsModel.destinationNames;
 
-    return new TripFormUpdateView({
+    return new TripFormView({
       point,
-      offerByType,
+      offers: offerByType.offers,
       destination,
       destinations,
       onFormSubmit,
       onCancelClick,
+      getDestinationByName,
+      getOfferByType,
     });
   }
 

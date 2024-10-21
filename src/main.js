@@ -1,4 +1,4 @@
-import Presenter from './presenter/presenter.js';
+import MainPresenter from './presenter/main-presenter.js';
 import Service from './service/service.js';
 import PointsModel from './model/points-model.js';
 import OffersModel from './model/offers-model.js';
@@ -13,7 +13,7 @@ const pointsModel = new PointsModel(service);
 const offersModel = new OffersModel(service);
 const destinationsModel = new DestinationsModel(service);
 
-const presenter = new Presenter({
+const mainPresenter = new MainPresenter({
   filtersContainer,
   eventsContainer,
   tripInfoContainer,
@@ -21,4 +21,5 @@ const presenter = new Presenter({
   offersModel,
   destinationsModel,
 });
-presenter.init();
+
+mainPresenter.init();
