@@ -31,6 +31,10 @@ export default class Service {
     return this.#destinations.find((destination) => destination.id === id);
   }
 
+  getDestinationByName(name) {
+    return this.#destinations.find((destination) => destination.name === name);
+  }
+
   getOffers() {
     return this.#offers;
   }
